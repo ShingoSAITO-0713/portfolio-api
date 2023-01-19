@@ -1,17 +1,21 @@
 from fastapi import APIRouter
 from deta import Deta
 from pydantic import BaseModel
+import json
+
+with open('settings.json') as f:
+    ENV_KEYS = json.load(f)
+    PROJECT_KEY = ENV_KEYS['PROJECT_KEY']
+    DB_THESIS = ENV_KEYS['DB_THESIS']
+
 
 router = APIRouter(
     prefix='/post',
     tags=['post']
 )
 
-PROJECT_KEY = 'c00juf9n_NxF1PLjFxaBZJZTVQxonkHpn6tQ3ynvw'
-DB_NAME = 'Thesis'
-
 DETA = Deta(PROJECT_KEY)
-DB = DETA.Base(DB_NAME)
+DB = DETA.Base(DB_THESIS)
 
 class ThesisData(BaseModel):
     title: str

@@ -1,17 +1,20 @@
 from fastapi import APIRouter
-import asyncio
 from deta import Deta
+import json
+
+with open('settings.json') as f:
+    ENV_KEYS = json.load(f)
+    PROJECT_KEY = ENV_KEYS['PROJECT_KEY']
+    DB_THESIS = ENV_KEYS['DB_THESIS']
+
 
 router = APIRouter(
     prefix='/delete',
     tags=['delete']
 )
 
-PROJECT_KEY = 'c00juf9n_NxF1PLjFxaBZJZTVQxonkHpn6tQ3ynvw'
-DB_NAME = 'Thesis'
-
 DETA = Deta(PROJECT_KEY)
-DB = DETA.Base(DB_NAME)
+DB = DETA.Base(DB_THESIS)
 
 @router.delete('/{id}')
 async def delete_thesis(id: str):

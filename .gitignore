@@ -8,4 +8,4 @@ __pycache__
 .deta
 
 #環境変数
-.env
+settings.json
