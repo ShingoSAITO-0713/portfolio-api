@@ -12,7 +12,7 @@ origins = [
     'http://localhost:3000',
     'http://localhost',
     'https://portfolio-next-js-red.vercel.app',
-    'https://portfolio2023-orcin.vercel.app'
+    'https://portfolio2023-orcin.vercel.app',
 ]
 
 app.add_middleware(
