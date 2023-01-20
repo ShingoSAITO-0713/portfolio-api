@@ -26,8 +26,8 @@ AUTHORS = DETA.Base(DB_AUTHORS)
 # }
 
 router = APIRouter(
-    prefix='/put',
-    tags=['put']
+    prefix='/post/update',
+    tags=['post']
 )
 
 class ThesisData(BaseModel):
@@ -80,7 +80,7 @@ def get_authors(author_names, thesis_id):
     return authors
 
 
-@router.put('/')
+@router.post('/')
 async def put_data(thesis_data: ThesisData):
     author_names = thesis_data.authors
     thesis_id = thesis_data.key
