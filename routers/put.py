@@ -18,6 +18,7 @@ class ThesisData(BaseModel):
     is_read: Optional[str]
     authors: Optional[list]
     magazine: Optional[str]
+    page: Optional[str]
 
 router = APIRouter(
     prefix='/put',
