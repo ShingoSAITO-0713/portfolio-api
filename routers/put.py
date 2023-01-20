@@ -41,28 +41,51 @@ class ThesisData(BaseModel):
     magazine: Optional[str]
     page: Optional[str]
 
+#著者の登録と{id, name}の取得
+def get_authors(author_names, thesis_id):
+    authors = []
+    for author_name in author_names:
+        author_id = ''
+        _author = AUTHORS_MASTER.fetch({
+            'author_name': author_name
+        })
+        is_exit_author = _author._count != 0
+        if is_exit_author:
+            author_id = _author._items[0]['key']
+        else:
+            author_id = AUTHORS_MASTER.put({
+                'author_name': author_name
+            })['key']
+
+        _thesis = AUTHORS.fetch({
+            'author_id': author_id,
+            'thesis_id': thesis_id
+        })
+        is_exist_thesis = _thesis._count != 0
+
+        author = {}
+        if is_exist_thesis:
+            pass
+        else:
+            author = AUTHORS.put({
+                'thesis_id': thesis_id,
+                'author_id': author_id
+            })
+
+        authors.append({
+            'author_name': author_name,
+            'author_id': author_id
+        })
+
+    return authors
+
+
 @router.put('/')
 async def put_data(thesis_data: ThesisData):
     author_names = thesis_data.authors
     thesis_id = thesis_data.key
-    author_id = ''
-    authors = []
-    for author_name in author_names:
-        is_exist_author = len(AUTHORS_MASTER.fetch({ 'author_name': author_name })) != 0
-        if is_exist_author:
-            author_id = AUTHORS_MASTER.fetch({ 'author_name': author_name })[0]['key']
-        else:
-            author_id = AUTHORS_MASTER.put({ 'author_name': author_name })['key']
 
-        author = AUTHORS.put({
-            'thesis_id': thesis_id,
-            'author_id': author_id
-        })
-
-        authors.append({
-            'thesis_id': author['thesis_id'],
-            'author_id': author['author_id']
-        })
+    authors = get_authors(author_names, thesis_id)
 
     thesis = THESIS.put(
         {
