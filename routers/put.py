@@ -16,8 +16,6 @@ class ThesisData(BaseModel):
     publish_date: str
     url: str
     is_read: Optional[str]
-    authors: Optional[list]
-    magazine: Optional[str]
     page: Optional[str]
 
 router = APIRouter(
@@ -27,4 +25,13 @@ router = APIRouter(
 
 @router.put('/')
 async def put_data(thesis_data: ThesisData):
-    return thesis_data
+    thesis = THESIS.put({
+        'title': thesis_data.title,
+        'language': thesis_data.language,
+        'publish_date': thesis_data.publish_date,
+        'url': thesis_data.url,
+        'is_read': thesis_data.is_read,
+        'page': thesis_data.page,
+    }, thesis_data.key)
+
+    return thesis
