@@ -1,11 +1,12 @@
 from fastapi import FastAPI
-from routers import post, get, delete
+from routers import post, get, delete, put
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 app.include_router(post.router)
 app.include_router(get.router)
 app.include_router(delete.router)
+app.include_router(put.router)
 
 origins = [
     'http://localhost:3000',
