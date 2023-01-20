@@ -23,6 +23,10 @@ class ThesisData(BaseModel):
     language: int
     publish_date: str
     url: str
+    page:str
+    is_read:int
+    magazine: str
+    authors: list
 
 @router.post('/')
 async def post_Data(thesis_data: ThesisData):
@@ -30,13 +34,21 @@ async def post_Data(thesis_data: ThesisData):
     language = thesis_data.language
     publish_date = thesis_data.publish_date
     url = thesis_data.url
+    page = thesis_data.page
+    is_read = thesis_data.is_read
+    magazine = thesis_data.magazine
+    authors = thesis_data.authors
 
     thesis = THESIS.put(
         {
             'title': title,
             'language': language,
             'publish_date': publish_date,
-            'url': url
+            'url': url,
+            'page': page,
+            'is_read': is_read,
+            'magazine': magazine,
+            'authors': authors
         }
     )
 
